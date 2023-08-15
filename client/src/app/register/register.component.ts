@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
             this.cancel(); // cierro el register form
          },
          error: (err) => {
-            this.toastr.error(err.error + '  💩');
+            // this.toastr.error(err.error + '  💩');
          },
       });
    }
