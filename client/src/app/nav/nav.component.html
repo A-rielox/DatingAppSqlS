@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand bg-primary-subtle fixed-top">
+    <div class="container">
+        <a class="navbar-brand">App</a>
+
+        <ul *ngIf="accontService.currentUser$ | async" class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link">Matches</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link">Lists</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link">Messages</a>
+            </li>
+        </ul>
+
+        <div class="nav-item dropdown" dropdown *ngIf="accontService.currentUser$ | async">
+            <a class="nav-link dropdown-toggle" role="button" dropdownToggle>
+                Welcome user
+            </a>
+
+            <ul class="dropdown-menu" *dropdownMenu>
+                <li><a class="dropdown-item">Edit Profile</a></li>
+
+                <li><a class="dropdown-item" (click)="logout()">Logout</a></li>
+            </ul>
+        </div>
+
+        <form *ngIf="!(accontService.currentUser$ | async)" class="d-flex" #loginForm="ngForm" (submit)="login()"
+            autocomplete="off">
+            <input class="form-control me-2" type="text" placeholder="Username" name="username"
+                [(ngModel)]="model.username">
+
+            <input class="form-control me-2" type="text" placeholder="Password" name="password"
+                [(ngModel)]="model.password">
+
+            <button class="btn btn-outline-success" type="submit">Login</button>
+        </form>
+    </div>
+</nav>
