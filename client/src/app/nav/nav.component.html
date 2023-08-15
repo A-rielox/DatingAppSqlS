@@ -1,18 +1,24 @@
 <nav class="navbar navbar-expand bg-primary-subtle fixed-top">
     <div class="container">
-        <a class="navbar-brand">App</a>
+        <a class="navbar-brand" routerLink="/">App</a>
 
-        <ul *ngIf="accontService.currentUser$ | async" class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-                <a class="nav-link">Matches</a>
-            </li>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <ng-container *ngIf="accontService.currentUser$ | async">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
+                </li>
+            </ng-container>
 
             <li class="nav-item">
-                <a class="nav-link">Lists</a>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link">Messages</a>
+                <a class="nav-link" routerLink="/errors" routerLinkActive="active">error</a>
             </li>
         </ul>
 

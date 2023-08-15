@@ -42,6 +42,6 @@ public class UsersController : BaseApiController
                                     new { userId = id },
                                     commandType: CommandType.StoredProcedure);
 
-        return Ok(user.Single());
+        return Ok(user.SingleOrDefault());
     }
 }
