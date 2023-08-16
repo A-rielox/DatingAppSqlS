@@ -1,19 +1,22 @@
-﻿using API.Entities;
-using Dapper;
+﻿using API.DTOs;
+using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
-using System.Data;
 
 namespace API.Controllers;
 
+
+[Authorize]
 public class UsersController : BaseApiController
 {
-    private IDbConnection db;
+    private readonly IUserRepository _userRepository;
+    private readonly IMapper _mapper;
 
-    public UsersController(IConfiguration configuration)
+    public UsersController(IUserRepository userRepository, IMapper mapper)
     {
-        this.db = new SqlConnection(configuration.GetConnectionString("DefaultConnection"));
+        _userRepository = userRepository;
+        _mapper = mapper;
     }
 
 
@@ -22,26 +25,24 @@ public class UsersController : BaseApiController
     /////////////////////////////////////////////////
     // /api/Users
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<AppUser>>> GetUsers()
+    public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
     {
-        var users = await db.QueryAsync<AppUser>("sp_getAllUsers",
-                                  commandType: CommandType.StoredProcedure);
+        var users = await _userRepository.GetUsersAsync();
+        var members = _mapper.Map<IEnumerable<MemberDto>>(users);
 
-        return Ok(users);
+        return Ok(members);
     }
 
 
     //////////////////////////////////////////////
     /////////////////////////////////////////////////
-    // api/Users/3
-    [Authorize]
-    [HttpGet("{id}")]
-    public async Task<ActionResult<AppUser>> GetUser(int id)
-    {
-        var user = await db.QueryAsync<AppUser>("sp_getUserById",
-                                    new { userId = id },
-                                    commandType: CommandType.StoredProcedure);
+    // api/Users/bob
+    [HttpGet("{username}")]
+    public async Task<ActionResult<MemberDto>> GetUser(string username)
+    {// està usando getMember, lo mismo pero mapea el query con AutoMapper
+        var user = await _userRepository.GetUserByUsernameAsync(username);
+        var member = _mapper.Map<MemberDto>(user);
 
-        return Ok(user.SingleOrDefault());
+        return Ok(member);
     }
 }

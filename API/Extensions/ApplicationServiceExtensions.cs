@@ -1,4 +1,6 @@
-﻿using API.Interfaces;
+﻿using API.Data;
+using API.Helpers;
+using API.Interfaces;
 using API.Services;
 
 namespace API.Extensions;
@@ -13,6 +15,11 @@ public static class ApplicationServiceExtensions
         services.AddCors();
 
         services.AddScoped<ITokenService, TokenService>();
+        
+        //services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+        services.AddScoped<IUserRepository, UserRepository>();
 
 
         //services.Configure<CloudinarySettings>(config.GetSection("CloudinarySettings"));
@@ -23,7 +30,6 @@ public static class ApplicationServiceExtensions
         //services.AddScoped<LogUserActivity>();
         //services.AddScoped<IUserRepository, UserRepository>();
 
-        //services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
         return services;
     }
