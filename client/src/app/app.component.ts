@@ -9,25 +9,10 @@ import { User } from './_models/user';
    styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-   users: any;
-
-   constructor(
-      private http: HttpClient,
-      private accountService: AccountService
-   ) {}
+   constructor(private accountService: AccountService) {}
 
    ngOnInit(): void {
       this.setCurrentUser();
-      this.getUsers();
-   }
-
-   getUsers() {
-      this.http.get('https://localhost:5001/api/Users').subscribe({
-         next: (users) => {
-            this.users = users;
-         },
-         error: (err) => console.log(err),
-      });
    }
 
    setCurrentUser() {
