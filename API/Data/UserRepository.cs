@@ -2,6 +2,7 @@
 using API.Interfaces;
 using AutoMapper;
 using Dapper;
+using Dapper.Contrib.Extensions;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -84,9 +85,12 @@ public class UserRepository : IUserRepository
     ////////////////////////////////////////////////
     ///////////////////////////////////////////////////
     //
-    public void Update(AppUser user)
+    public async Task<bool> UpdateAsync(AppUser user)
     {
         //_context.Entry(user).State = EntityState.Modified;
+        var res = await db.UpdateAsync(user);
+
+        return res;
     }
 
     ////////////////////////////////////////////////

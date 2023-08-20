@@ -3,6 +3,7 @@ using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace API.Controllers;
 
@@ -44,5 +45,26 @@ public class UsersController : BaseApiController
         var member = _mapper.Map<MemberDto>(user);
 
         return Ok(member);
+    }
+
+
+    //////////////////////////////////////////////
+    /////////////////////////////////////////////////
+    // api/Users
+    [HttpPut]
+    public async Task<ActionResult> UpdateUser(MemberUpdateDto memberUpdateDto)
+    {
+        var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        var user = await _userRepository.GetUserByUsernameAsync(username);
+
+        // lo q esta em memberUpdateDto lo mete a user
+        //                |---------->
+        _mapper.Map(memberUpdateDto, user);
+
+        // aùn y si no hay cambios me sobreescribe todo
+        if (await _userRepository.UpdateAsync(user)) return NoContent();
+
+        return BadRequest("Failed to update user.");
     }
 }
