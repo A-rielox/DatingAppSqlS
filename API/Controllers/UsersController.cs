@@ -108,22 +108,14 @@ public class UsersController : BaseApiController
 
         var photoId = await _userRepository.AddPhotoAsync(photo);
 
-        if(photoId > 0) return _mapper.Map<PhotoDto>(photo);
+        if(photoId > 0)
+        {
+            //return _mapper.Map<PhotoDto>(photo);
+            return CreatedAtAction(nameof(GetUser),
+                        new { username = user.UserName }, _mapper.Map<PhotoDto>(photo));
+        }
 
         return BadRequest("Problem adding the photo.");
-
-        //user.Photos.Add(photo);
-
-        //if (await _userRepository.SaveAllAsync())
-        //{//                        <-------
-        //    return _mapper.Map<PhotoDto>(photo);
-        //    // el " new {} " es xq la ruta GetUser ocupa ese parametro para ir al user
-        //    // el tercer parametro es el object que se creó
-        //    //return CreatedAtAction(nameof(GetUser),
-        //    //    new { username = user.UserName }, _mapper.Map<PhotoDto>(photo));
-        //}
-
-        //return BadRequest("Problem adding photo.");
     }
 
     ////////////////////////////////////////////////
