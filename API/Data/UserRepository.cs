@@ -150,5 +150,17 @@ public class UserRepository : IUserRepository
     //                query.AsNoTracking().ProjectTo<MemberDto>(_mapper.ConfigurationProvider),
     //                userParams.PageNumber, userParams.PageSize);
     //}
+
+    /// <summary>
+    /// Returns Id of photo inserted
+    /// </summary>
+    /// <param name="photo"></param>
+    /// <returns>Id of photo inserted</returns>
+    public async Task<int> AddPhotoAsync(Photo photo)
+    {
+        var res = await db.InsertAsync(photo);
+
+        return res;
+    }
 }
 

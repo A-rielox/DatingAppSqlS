@@ -23,8 +23,8 @@ public class TokenService : ITokenService
     {
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.NameId, user.UserName) // lo jalo como: User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            //new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
+            new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()), // lo jalo como: User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName), // user.FindFirst(ClaimTypes.Name)?.Value
         };
 
         var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

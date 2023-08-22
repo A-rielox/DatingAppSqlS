@@ -16,4 +16,8 @@ public interface IUserRepository
     //Task<MemberDto> GetMemberAsync(string username);
 
     //Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
+
+
+
+    Task<int> AddPhotoAsync(Photo photo);
 }
