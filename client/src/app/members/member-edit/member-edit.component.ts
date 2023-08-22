@@ -25,6 +25,7 @@ export class MemberEditComponent implements OnInit {
       this.accountService.currentUser$.pipe(take(1)).subscribe({
          next: (user) => {
             this.user = user;
+            // console.log(user, 'user------');
          },
       });
    }
@@ -39,6 +40,7 @@ export class MemberEditComponent implements OnInit {
       this.memberService.getMember(this.user.userName).subscribe({
          next: (res) => {
             this.member = res;
+            // console.log(res, 'member-------');
          },
       });
    }
